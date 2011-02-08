@@ -2,10 +2,13 @@
 
 #include <flm/flm.h>
 
+#include "conf.h"
+#include "listener.h"
 #include "connection_thread.h"
 
 struct listener_State {
-	flm_ThreadPool *	thread_pool;
+    struct conf *       conf;
+    flm_ThreadPool *	thread_pool;
 };
 
 void
@@ -15,8 +18,7 @@ void
 listener_AcceptHandler (void *, int);
 
 flm_ThreadPool *
-listener_Start (const char *	host,
-		unsigned short	port)
+listener_Start (struct conf * conf)
 {
 	flm_ThreadPool *	thread_pool;
 	flm_Thread *		thread;
@@ -33,7 +35,7 @@ listener_Start (const char *	host,
 		goto error;
 	}
 	
-	for (i = 0; i < NB_THREADS; i++) {
+	for (i = 0; i < conf->nb_threads; i++) {
 		thread = connection_thread_Start (thread_pool);
 		if (thread == NULL) {
 			/* should be an error */
@@ -53,13 +55,14 @@ listener_Start (const char *	host,
 	if (state == NULL) {
 		goto release_monitor;
 	}
+        state->conf = conf;
 	state->thread_pool = thread_pool;
 
-	listener = flm_TCPServerNew (monitor, host, port, state);
+	listener = flm_TCPServerNew (monitor, conf->host, conf->port, state);
 	if (listener == NULL ) {
 		goto free_state;
 	}
-
+        
 	flm_TCPServerOnAccept (listener, listener_AcceptHandler);
 	flm_IOOnError (FLM_IO(listener), listener_ErrorHandler);
 
@@ -88,13 +91,13 @@ listener_AcceptHandler (void *	_state,
 	struct listener_State * state;
 
 	state = _state;
-	connection_thread_Accept (state->thread_pool, fd);
+	connection_thread_Accept (state->thread_pool, state->conf, fd);
 	return ;
 }
 
 void
 listener_ErrorHandler (void *	_state,
-		       int		error)
+		       int      error)
 {
 	(void) _state;
 	(void) error;

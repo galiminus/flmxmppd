@@ -34,7 +34,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-bin_PROGRAMS = pubsubd$(EXEEXT)
+bin_PROGRAMS = flmxmppd$(EXEEXT)
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -47,14 +47,15 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_pubsubd_OBJECTS = pubsubd-main.$(OBJEXT) pubsubd-listener.$(OBJEXT) \
-	pubsubd-listener_thread.$(OBJEXT) pubsubd-connection.$(OBJEXT) \
-	pubsubd-connection_thread.$(OBJEXT) pubsubd-config.$(OBJEXT)
-pubsubd_OBJECTS = $(am_pubsubd_OBJECTS)
-pubsubd_LDADD = $(LDADD)
-pubsubd_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
-	--mode=link $(CCLD) $(pubsubd_CFLAGS) $(CFLAGS) \
-	$(pubsubd_LDFLAGS) $(LDFLAGS) -o $@
+am_flmxmppd_OBJECTS = flmxmppd-main.$(OBJEXT) \
+	flmxmppd-listener.$(OBJEXT) flmxmppd-listener_thread.$(OBJEXT) \
+	flmxmppd-connection.$(OBJEXT) \
+	flmxmppd-connection_thread.$(OBJEXT) flmxmppd-conf.$(OBJEXT)
+flmxmppd_OBJECTS = $(am_flmxmppd_OBJECTS)
+flmxmppd_LDADD = $(LDADD)
+flmxmppd_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
+	--mode=link $(CCLD) $(flmxmppd_CFLAGS) $(CFLAGS) \
+	$(flmxmppd_LDFLAGS) $(LDFLAGS) -o $@
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -68,8 +69,8 @@ CCLD = $(CC)
 LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-SOURCES = $(pubsubd_SOURCES)
-DIST_SOURCES = $(pubsubd_SOURCES)
+SOURCES = $(flmxmppd_SOURCES)
+DIST_SOURCES = $(flmxmppd_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -187,16 +188,16 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-pubsubd_SOURCES = \
-main.c				\
-listener.c			\
+flmxmppd_SOURCES = \
+main.c					\
+listener.c				\
 listener_thread.c		\
 connection.c			\
-connection_thread.c	\
-config.c
+connection_thread.c		\
+conf.c
 
-pubsubd_CFLAGS = -W -Wall -I../include/ -ggdb
-pubsubd_LDFLAGS = -lflm
+flmxmppd_CFLAGS = -W -Wall -I../include/ -ggdb
+flmxmppd_LDFLAGS = -lflm
 all: all-am
 
 .SUFFIXES:
@@ -274,9 +275,9 @@ clean-binPROGRAMS:
 	list=`for p in $$list; do echo "$$p"; done | sed 's/$(EXEEXT)$$//'`; \
 	echo " rm -f" $$list; \
 	rm -f $$list
-pubsubd$(EXEEXT): $(pubsubd_OBJECTS) $(pubsubd_DEPENDENCIES) 
-	@rm -f pubsubd$(EXEEXT)
-	$(pubsubd_LINK) $(pubsubd_OBJECTS) $(pubsubd_LDADD) $(LIBS)
+flmxmppd$(EXEEXT): $(flmxmppd_OBJECTS) $(flmxmppd_DEPENDENCIES) 
+	@rm -f flmxmppd$(EXEEXT)
+	$(flmxmppd_LINK) $(flmxmppd_OBJECTS) $(flmxmppd_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -284,12 +285,12 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pubsubd-config.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pubsubd-connection.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pubsubd-connection_thread.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pubsubd-listener.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pubsubd-listener_thread.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pubsubd-main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/flmxmppd-conf.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/flmxmppd-connection.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/flmxmppd-connection_thread.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/flmxmppd-listener.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/flmxmppd-listener_thread.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/flmxmppd-main.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -312,89 +313,89 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LTCOMPILE) -c -o $@ $<
 
-pubsubd-main.o: main.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pubsubd_CFLAGS) $(CFLAGS) -MT pubsubd-main.o -MD -MP -MF $(DEPDIR)/pubsubd-main.Tpo -c -o pubsubd-main.o `test -f 'main.c' || echo '$(srcdir)/'`main.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/pubsubd-main.Tpo $(DEPDIR)/pubsubd-main.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='main.c' object='pubsubd-main.o' libtool=no @AMDEPBACKSLASH@
+flmxmppd-main.o: main.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(flmxmppd_CFLAGS) $(CFLAGS) -MT flmxmppd-main.o -MD -MP -MF $(DEPDIR)/flmxmppd-main.Tpo -c -o flmxmppd-main.o `test -f 'main.c' || echo '$(srcdir)/'`main.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/flmxmppd-main.Tpo $(DEPDIR)/flmxmppd-main.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='main.c' object='flmxmppd-main.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pubsubd_CFLAGS) $(CFLAGS) -c -o pubsubd-main.o `test -f 'main.c' || echo '$(srcdir)/'`main.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(flmxmppd_CFLAGS) $(CFLAGS) -c -o flmxmppd-main.o `test -f 'main.c' || echo '$(srcdir)/'`main.c
 
-pubsubd-main.obj: main.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pubsubd_CFLAGS) $(CFLAGS) -MT pubsubd-main.obj -MD -MP -MF $(DEPDIR)/pubsubd-main.Tpo -c -o pubsubd-main.obj `if test -f 'main.c'; then $(CYGPATH_W) 'main.c'; else $(CYGPATH_W) '$(srcdir)/main.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/pubsubd-main.Tpo $(DEPDIR)/pubsubd-main.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='main.c' object='pubsubd-main.obj' libtool=no @AMDEPBACKSLASH@
+flmxmppd-main.obj: main.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(flmxmppd_CFLAGS) $(CFLAGS) -MT flmxmppd-main.obj -MD -MP -MF $(DEPDIR)/flmxmppd-main.Tpo -c -o flmxmppd-main.obj `if test -f 'main.c'; then $(CYGPATH_W) 'main.c'; else $(CYGPATH_W) '$(srcdir)/main.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/flmxmppd-main.Tpo $(DEPDIR)/flmxmppd-main.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='main.c' object='flmxmppd-main.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pubsubd_CFLAGS) $(CFLAGS) -c -o pubsubd-main.obj `if test -f 'main.c'; then $(CYGPATH_W) 'main.c'; else $(CYGPATH_W) '$(srcdir)/main.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(flmxmppd_CFLAGS) $(CFLAGS) -c -o flmxmppd-main.obj `if test -f 'main.c'; then $(CYGPATH_W) 'main.c'; else $(CYGPATH_W) '$(srcdir)/main.c'; fi`
 
-pubsubd-listener.o: listener.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pubsubd_CFLAGS) $(CFLAGS) -MT pubsubd-listener.o -MD -MP -MF $(DEPDIR)/pubsubd-listener.Tpo -c -o pubsubd-listener.o `test -f 'listener.c' || echo '$(srcdir)/'`listener.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/pubsubd-listener.Tpo $(DEPDIR)/pubsubd-listener.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='listener.c' object='pubsubd-listener.o' libtool=no @AMDEPBACKSLASH@
+flmxmppd-listener.o: listener.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(flmxmppd_CFLAGS) $(CFLAGS) -MT flmxmppd-listener.o -MD -MP -MF $(DEPDIR)/flmxmppd-listener.Tpo -c -o flmxmppd-listener.o `test -f 'listener.c' || echo '$(srcdir)/'`listener.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/flmxmppd-listener.Tpo $(DEPDIR)/flmxmppd-listener.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='listener.c' object='flmxmppd-listener.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pubsubd_CFLAGS) $(CFLAGS) -c -o pubsubd-listener.o `test -f 'listener.c' || echo '$(srcdir)/'`listener.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(flmxmppd_CFLAGS) $(CFLAGS) -c -o flmxmppd-listener.o `test -f 'listener.c' || echo '$(srcdir)/'`listener.c
 
-pubsubd-listener.obj: listener.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pubsubd_CFLAGS) $(CFLAGS) -MT pubsubd-listener.obj -MD -MP -MF $(DEPDIR)/pubsubd-listener.Tpo -c -o pubsubd-listener.obj `if test -f 'listener.c'; then $(CYGPATH_W) 'listener.c'; else $(CYGPATH_W) '$(srcdir)/listener.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/pubsubd-listener.Tpo $(DEPDIR)/pubsubd-listener.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='listener.c' object='pubsubd-listener.obj' libtool=no @AMDEPBACKSLASH@
+flmxmppd-listener.obj: listener.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(flmxmppd_CFLAGS) $(CFLAGS) -MT flmxmppd-listener.obj -MD -MP -MF $(DEPDIR)/flmxmppd-listener.Tpo -c -o flmxmppd-listener.obj `if test -f 'listener.c'; then $(CYGPATH_W) 'listener.c'; else $(CYGPATH_W) '$(srcdir)/listener.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/flmxmppd-listener.Tpo $(DEPDIR)/flmxmppd-listener.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='listener.c' object='flmxmppd-listener.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pubsubd_CFLAGS) $(CFLAGS) -c -o pubsubd-listener.obj `if test -f 'listener.c'; then $(CYGPATH_W) 'listener.c'; else $(CYGPATH_W) '$(srcdir)/listener.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(flmxmppd_CFLAGS) $(CFLAGS) -c -o flmxmppd-listener.obj `if test -f 'listener.c'; then $(CYGPATH_W) 'listener.c'; else $(CYGPATH_W) '$(srcdir)/listener.c'; fi`
 
-pubsubd-listener_thread.o: listener_thread.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pubsubd_CFLAGS) $(CFLAGS) -MT pubsubd-listener_thread.o -MD -MP -MF $(DEPDIR)/pubsubd-listener_thread.Tpo -c -o pubsubd-listener_thread.o `test -f 'listener_thread.c' || echo '$(srcdir)/'`listener_thread.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/pubsubd-listener_thread.Tpo $(DEPDIR)/pubsubd-listener_thread.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='listener_thread.c' object='pubsubd-listener_thread.o' libtool=no @AMDEPBACKSLASH@
+flmxmppd-listener_thread.o: listener_thread.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(flmxmppd_CFLAGS) $(CFLAGS) -MT flmxmppd-listener_thread.o -MD -MP -MF $(DEPDIR)/flmxmppd-listener_thread.Tpo -c -o flmxmppd-listener_thread.o `test -f 'listener_thread.c' || echo '$(srcdir)/'`listener_thread.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/flmxmppd-listener_thread.Tpo $(DEPDIR)/flmxmppd-listener_thread.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='listener_thread.c' object='flmxmppd-listener_thread.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pubsubd_CFLAGS) $(CFLAGS) -c -o pubsubd-listener_thread.o `test -f 'listener_thread.c' || echo '$(srcdir)/'`listener_thread.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(flmxmppd_CFLAGS) $(CFLAGS) -c -o flmxmppd-listener_thread.o `test -f 'listener_thread.c' || echo '$(srcdir)/'`listener_thread.c
 
-pubsubd-listener_thread.obj: listener_thread.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pubsubd_CFLAGS) $(CFLAGS) -MT pubsubd-listener_thread.obj -MD -MP -MF $(DEPDIR)/pubsubd-listener_thread.Tpo -c -o pubsubd-listener_thread.obj `if test -f 'listener_thread.c'; then $(CYGPATH_W) 'listener_thread.c'; else $(CYGPATH_W) '$(srcdir)/listener_thread.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/pubsubd-listener_thread.Tpo $(DEPDIR)/pubsubd-listener_thread.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='listener_thread.c' object='pubsubd-listener_thread.obj' libtool=no @AMDEPBACKSLASH@
+flmxmppd-listener_thread.obj: listener_thread.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(flmxmppd_CFLAGS) $(CFLAGS) -MT flmxmppd-listener_thread.obj -MD -MP -MF $(DEPDIR)/flmxmppd-listener_thread.Tpo -c -o flmxmppd-listener_thread.obj `if test -f 'listener_thread.c'; then $(CYGPATH_W) 'listener_thread.c'; else $(CYGPATH_W) '$(srcdir)/listener_thread.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/flmxmppd-listener_thread.Tpo $(DEPDIR)/flmxmppd-listener_thread.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='listener_thread.c' object='flmxmppd-listener_thread.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pubsubd_CFLAGS) $(CFLAGS) -c -o pubsubd-listener_thread.obj `if test -f 'listener_thread.c'; then $(CYGPATH_W) 'listener_thread.c'; else $(CYGPATH_W) '$(srcdir)/listener_thread.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(flmxmppd_CFLAGS) $(CFLAGS) -c -o flmxmppd-listener_thread.obj `if test -f 'listener_thread.c'; then $(CYGPATH_W) 'listener_thread.c'; else $(CYGPATH_W) '$(srcdir)/listener_thread.c'; fi`
 
-pubsubd-connection.o: connection.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pubsubd_CFLAGS) $(CFLAGS) -MT pubsubd-connection.o -MD -MP -MF $(DEPDIR)/pubsubd-connection.Tpo -c -o pubsubd-connection.o `test -f 'connection.c' || echo '$(srcdir)/'`connection.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/pubsubd-connection.Tpo $(DEPDIR)/pubsubd-connection.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='connection.c' object='pubsubd-connection.o' libtool=no @AMDEPBACKSLASH@
+flmxmppd-connection.o: connection.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(flmxmppd_CFLAGS) $(CFLAGS) -MT flmxmppd-connection.o -MD -MP -MF $(DEPDIR)/flmxmppd-connection.Tpo -c -o flmxmppd-connection.o `test -f 'connection.c' || echo '$(srcdir)/'`connection.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/flmxmppd-connection.Tpo $(DEPDIR)/flmxmppd-connection.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='connection.c' object='flmxmppd-connection.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pubsubd_CFLAGS) $(CFLAGS) -c -o pubsubd-connection.o `test -f 'connection.c' || echo '$(srcdir)/'`connection.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(flmxmppd_CFLAGS) $(CFLAGS) -c -o flmxmppd-connection.o `test -f 'connection.c' || echo '$(srcdir)/'`connection.c
 
-pubsubd-connection.obj: connection.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pubsubd_CFLAGS) $(CFLAGS) -MT pubsubd-connection.obj -MD -MP -MF $(DEPDIR)/pubsubd-connection.Tpo -c -o pubsubd-connection.obj `if test -f 'connection.c'; then $(CYGPATH_W) 'connection.c'; else $(CYGPATH_W) '$(srcdir)/connection.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/pubsubd-connection.Tpo $(DEPDIR)/pubsubd-connection.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='connection.c' object='pubsubd-connection.obj' libtool=no @AMDEPBACKSLASH@
+flmxmppd-connection.obj: connection.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(flmxmppd_CFLAGS) $(CFLAGS) -MT flmxmppd-connection.obj -MD -MP -MF $(DEPDIR)/flmxmppd-connection.Tpo -c -o flmxmppd-connection.obj `if test -f 'connection.c'; then $(CYGPATH_W) 'connection.c'; else $(CYGPATH_W) '$(srcdir)/connection.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/flmxmppd-connection.Tpo $(DEPDIR)/flmxmppd-connection.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='connection.c' object='flmxmppd-connection.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pubsubd_CFLAGS) $(CFLAGS) -c -o pubsubd-connection.obj `if test -f 'connection.c'; then $(CYGPATH_W) 'connection.c'; else $(CYGPATH_W) '$(srcdir)/connection.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(flmxmppd_CFLAGS) $(CFLAGS) -c -o flmxmppd-connection.obj `if test -f 'connection.c'; then $(CYGPATH_W) 'connection.c'; else $(CYGPATH_W) '$(srcdir)/connection.c'; fi`
 
-pubsubd-connection_thread.o: connection_thread.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pubsubd_CFLAGS) $(CFLAGS) -MT pubsubd-connection_thread.o -MD -MP -MF $(DEPDIR)/pubsubd-connection_thread.Tpo -c -o pubsubd-connection_thread.o `test -f 'connection_thread.c' || echo '$(srcdir)/'`connection_thread.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/pubsubd-connection_thread.Tpo $(DEPDIR)/pubsubd-connection_thread.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='connection_thread.c' object='pubsubd-connection_thread.o' libtool=no @AMDEPBACKSLASH@
+flmxmppd-connection_thread.o: connection_thread.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(flmxmppd_CFLAGS) $(CFLAGS) -MT flmxmppd-connection_thread.o -MD -MP -MF $(DEPDIR)/flmxmppd-connection_thread.Tpo -c -o flmxmppd-connection_thread.o `test -f 'connection_thread.c' || echo '$(srcdir)/'`connection_thread.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/flmxmppd-connection_thread.Tpo $(DEPDIR)/flmxmppd-connection_thread.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='connection_thread.c' object='flmxmppd-connection_thread.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pubsubd_CFLAGS) $(CFLAGS) -c -o pubsubd-connection_thread.o `test -f 'connection_thread.c' || echo '$(srcdir)/'`connection_thread.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(flmxmppd_CFLAGS) $(CFLAGS) -c -o flmxmppd-connection_thread.o `test -f 'connection_thread.c' || echo '$(srcdir)/'`connection_thread.c
 
-pubsubd-connection_thread.obj: connection_thread.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pubsubd_CFLAGS) $(CFLAGS) -MT pubsubd-connection_thread.obj -MD -MP -MF $(DEPDIR)/pubsubd-connection_thread.Tpo -c -o pubsubd-connection_thread.obj `if test -f 'connection_thread.c'; then $(CYGPATH_W) 'connection_thread.c'; else $(CYGPATH_W) '$(srcdir)/connection_thread.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/pubsubd-connection_thread.Tpo $(DEPDIR)/pubsubd-connection_thread.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='connection_thread.c' object='pubsubd-connection_thread.obj' libtool=no @AMDEPBACKSLASH@
+flmxmppd-connection_thread.obj: connection_thread.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(flmxmppd_CFLAGS) $(CFLAGS) -MT flmxmppd-connection_thread.obj -MD -MP -MF $(DEPDIR)/flmxmppd-connection_thread.Tpo -c -o flmxmppd-connection_thread.obj `if test -f 'connection_thread.c'; then $(CYGPATH_W) 'connection_thread.c'; else $(CYGPATH_W) '$(srcdir)/connection_thread.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/flmxmppd-connection_thread.Tpo $(DEPDIR)/flmxmppd-connection_thread.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='connection_thread.c' object='flmxmppd-connection_thread.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pubsubd_CFLAGS) $(CFLAGS) -c -o pubsubd-connection_thread.obj `if test -f 'connection_thread.c'; then $(CYGPATH_W) 'connection_thread.c'; else $(CYGPATH_W) '$(srcdir)/connection_thread.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(flmxmppd_CFLAGS) $(CFLAGS) -c -o flmxmppd-connection_thread.obj `if test -f 'connection_thread.c'; then $(CYGPATH_W) 'connection_thread.c'; else $(CYGPATH_W) '$(srcdir)/connection_thread.c'; fi`
 
-pubsubd-config.o: config.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pubsubd_CFLAGS) $(CFLAGS) -MT pubsubd-config.o -MD -MP -MF $(DEPDIR)/pubsubd-config.Tpo -c -o pubsubd-config.o `test -f 'config.c' || echo '$(srcdir)/'`config.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/pubsubd-config.Tpo $(DEPDIR)/pubsubd-config.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='config.c' object='pubsubd-config.o' libtool=no @AMDEPBACKSLASH@
+flmxmppd-conf.o: conf.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(flmxmppd_CFLAGS) $(CFLAGS) -MT flmxmppd-conf.o -MD -MP -MF $(DEPDIR)/flmxmppd-conf.Tpo -c -o flmxmppd-conf.o `test -f 'conf.c' || echo '$(srcdir)/'`conf.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/flmxmppd-conf.Tpo $(DEPDIR)/flmxmppd-conf.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conf.c' object='flmxmppd-conf.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pubsubd_CFLAGS) $(CFLAGS) -c -o pubsubd-config.o `test -f 'config.c' || echo '$(srcdir)/'`config.c
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(flmxmppd_CFLAGS) $(CFLAGS) -c -o flmxmppd-conf.o `test -f 'conf.c' || echo '$(srcdir)/'`conf.c
 
-pubsubd-config.obj: config.c
-@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pubsubd_CFLAGS) $(CFLAGS) -MT pubsubd-config.obj -MD -MP -MF $(DEPDIR)/pubsubd-config.Tpo -c -o pubsubd-config.obj `if test -f 'config.c'; then $(CYGPATH_W) 'config.c'; else $(CYGPATH_W) '$(srcdir)/config.c'; fi`
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/pubsubd-config.Tpo $(DEPDIR)/pubsubd-config.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='config.c' object='pubsubd-config.obj' libtool=no @AMDEPBACKSLASH@
+flmxmppd-conf.obj: conf.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(flmxmppd_CFLAGS) $(CFLAGS) -MT flmxmppd-conf.obj -MD -MP -MF $(DEPDIR)/flmxmppd-conf.Tpo -c -o flmxmppd-conf.obj `if test -f 'conf.c'; then $(CYGPATH_W) 'conf.c'; else $(CYGPATH_W) '$(srcdir)/conf.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/flmxmppd-conf.Tpo $(DEPDIR)/flmxmppd-conf.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conf.c' object='flmxmppd-conf.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pubsubd_CFLAGS) $(CFLAGS) -c -o pubsubd-config.obj `if test -f 'config.c'; then $(CYGPATH_W) 'config.c'; else $(CYGPATH_W) '$(srcdir)/config.c'; fi`
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(flmxmppd_CFLAGS) $(CFLAGS) -c -o flmxmppd-conf.obj `if test -f 'conf.c'; then $(CYGPATH_W) 'conf.c'; else $(CYGPATH_W) '$(srcdir)/conf.c'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo

@@ -1,8 +1,9 @@
 #include <unistd.h>
+#include <stdlib.h>
 
 #include <flm/flm.h>
 
-#include "config.h"
+#include "conf.h"
 #include "listener_thread.h"
 
 int
@@ -10,14 +11,17 @@ main (int argc, char ** argv)
 {
 	flm_Thread * thread;
 
-        struct config * config;
+        struct conf conf;
 
-        config = config_Parse (argc, argv);
-        if (config == NULL) {
+        conf.host = "localhost";
+        conf.port = 5222;
+        conf.nb_threads = 4;
+
+        if (conf_Parse (argc, argv, &conf) == -1) {
             return (EXIT_FAILURE);
         }
 
-	thread = listener_thread_Start ("localhost", 3000);
+	thread = listener_thread_Start (&conf);
 	if (thread == NULL) {
 		return (1);
 	}

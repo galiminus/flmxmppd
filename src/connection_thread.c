@@ -2,6 +2,7 @@
 
 #include <flm/flm.h>
 
+#include "conf.h"
 #include "connection.h"
 
 struct connection_thread_State {
@@ -19,6 +20,7 @@ connection_thread_AcceptHandler (void * _state,
 
 int
 connection_thread_Accept (flm_ThreadPool *	thread_pool,
+                          struct conf *         conf,
 			  int			fd)
 {
 	struct connection_thread_AcceptParams * params;

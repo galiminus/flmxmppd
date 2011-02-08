@@ -5,16 +5,14 @@
 #include "listener.h"
 
 struct listener_thread_State {
-	const char *	host;
-	unsigned short	port;
+    struct conf *       conf;
 };
 
 void
 listener_thread_StartHandler (void *, void *);
 
 flm_Thread *
-listener_thread_Start (const char *	host,
-		       unsigned short	port)
+listener_thread_Start (struct conf * conf)
 {
 	struct listener_thread_State *		state;
 	flm_Monitor *				monitor;
@@ -24,8 +22,7 @@ listener_thread_Start (const char *	host,
 	if (state == NULL) {
 		goto error;
 	}
-	state->host = host;
-	state->port = port;
+	state->conf = conf;
 
 	monitor = flm_MonitorNew ();
 	if (monitor == NULL) {
@@ -63,7 +60,7 @@ listener_thread_StartHandler (void *	_state,
 
 	state = _state;
 
-	thread_pool = listener_Start (state->host, state->port);
+	thread_pool = listener_Start (state->conf);
 	if (thread_pool == NULL) {
 		return ;
 	}

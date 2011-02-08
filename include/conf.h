@@ -14,12 +14,18 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef _FLMXMPPD_CONFIG_H
-# define _FLMXMPPD_CONFIG_H
+#ifndef _FLMXMPPD_CONF_H
+# define _FLMXMPPD_CONF_H
 
-struct config {
-    uint16_t    port;
-    uint16_t    nb_threads;
-}
+#include <unistd.h>
 
-#endif /* !_FLMXMPPD_CONFIG_H */
+struct conf {
+    char *      host;
+    int         port;
+    int         nb_threads;
+};
+
+int
+conf_Parse (int argc, char ** argv, struct conf * conf);
+
+#endif /* !_FLMXMPPD_CONF_H */
